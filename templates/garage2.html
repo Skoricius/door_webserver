@@ -1,91 +1,94 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript">
-// Timer status 0 - ready, 1 - completely block, 2 - prompt confirm
-let timer = 0;
-buttonClick = function() {
-	if (timer === 1) {
-		console.log('blocked')
-		return
-	}
-	
-	if (timer === 2) {
-		var verify = confirm("Confirm reactivation?")
-		console.log('triggering confirm')
-		if (! verify) {
-			console.log('failed confirm')
-			return
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript">
+		// Timer status 0 - ready, 1 - completely block, 2 - prompt confirm
+		let timer = 0;
+		buttonClick = function () {
+			// if (timer === 1) {
+			// 	console.log('blocked')
+			// 	return
+			// }
+
+			// if (timer === 2) {
+			// 	var verify = confirm("Confirm reactivation?")
+			// 	console.log('triggering confirm')
+			// 	if (! verify) {
+			// 		console.log('failed confirm')
+			// 		return
+			// 	}
+			// }
+
+			// document.getElementById('btn').classList.add('btn-blocked');
+			// timer = 1;
+			// setTimeout(_ => {
+			// 	timer = 2;
+			// 	document.getElementById('btn').classList.remove('btn-blocked');
+			// 	document.getElementById('btn').classList.add('btn-restricted');
+			// }, 1000);
+			// setTimeout(_ => {
+			// 	timer = 0 ;
+			// 	document.getElementById('btn').classList.remove('btn-restricted');
+			// }, 3000);
+
+			fetch('/echo')
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error('Network error.')
+					}
+					return response.json();
+				})
+				.then((myJson) => {
+					console.log(myJson);
+				})
+				.catch((error) => {
+					console.error('Network error:', error);
+				});
 		}
-	}
-	
-	document.getElementById('btn').classList.add('btn-blocked');
-	timer = 1;
-	setTimeout(_ => {
-		timer = 2;
-		document.getElementById('btn').classList.remove('btn-blocked');
-		document.getElementById('btn').classList.add('btn-restricted');
-	}, 1000);
-	setTimeout(_ => {
-		timer = 0 ;
-		document.getElementById('btn').classList.remove('btn-restricted');
-	}, 3000);
-	
-	fetch('/trigger')
-	  .then((response) => {
-		if (!response.ok) {
-			throw new Error('Network error.')
+	</script>
+	<style>
+		.btn {
+			position: absolute;
+			top: 25%;
+			left: 10%;
+			display: block;
+			width: 80%;
+			height: 50%;
+			border: none;
+			background-color: #4CAF50;
+			color: white;
+			font-size: 36px;
+			cursor: pointer;
+			text-align: center;
 		}
-		return response.json();
-	  })
-	  .then((myJson) => {
-		console.log(myJson);
-	  })
-	  .catch((error) => {
-		console.error('Network error:', error);
-	  });
-}
-</script>
-<style>
-.btn {
-  position:absolute;
-  top: 25%;
-  left:10%;
-  display: block;
-  width: 80%;
-  height:50%;
-  border: none;
-  background-color: #4CAF50;
-  color: white;
-  font-size: 36px;
-  cursor: pointer;
-  text-align: center;
-}
 
-.btn:hover {
-  background-color: #ddd;
-  color: black;
-}
+		.btn:hover {
+			background-color: #ddd;
+			color: black;
+		}
 
-.btn-blocked {
-	background-color:darkred;
-}
+		.btn-blocked {
+			background-color: darkred;
+		}
 
-.btn-blocked:hover {
-	background-color:darkred;
-}
+		.btn-blocked:hover {
+			background-color: darkred;
+		}
 
-.btn-restricted {
-	background-color:indianred;
-}
+		.btn-restricted {
+			background-color: indianred;
+		}
 
-.btn-restricted:hover {
-	background-color:indianred;
-}
-</style>
+		.btn-restricted:hover {
+			background-color: indianred;
+		}
+	</style>
 </head>
+
 <body>
-<button id="btn" class="btn" onclick="buttonClick()">Garage 2.0</button>
+	<button id="btn" class="btn" onclick="buttonClick()">{{state}}</button>
 </body>
+
 </html>
