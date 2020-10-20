@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, jsonify
+from flask_basicauth import BasicAuth
 import RPi.GPIO as GPIO
 import time
 
@@ -39,10 +40,12 @@ def home():
     print(state)
     if state == 0:
         button_caption = 'Start MOKE'
+        button_class = 'start_block'
     elif state == 1:
         button_caption = 'Stop MOKE'
+        button_class = 'stop_block'
     print(button_caption)
-    return render_template("garage2.html", state=button_caption)
+    return render_template("button.html", state=button_caption, button_class=button_class)
 
 
 @app.route("/echo")
@@ -60,4 +63,10 @@ def trigger():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=2525)
+    # set up authentication
+    app.config['BASIC_AUTH_USERNAME'] = 'pi'
+    app.config['BASIC_AUTH_PASSWORD'] = 'pi@moke'
+    app.config['BASIC_AUTH_FORCE'] = True
+    basic_auth = BasicAuth(app)
+
+    app.run(debug=False, host='0.0.0.0', port=2525)

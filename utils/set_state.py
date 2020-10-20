@@ -7,12 +7,13 @@ PORT = 15
 def start_moke():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(PORT, GPIO.OUT)
-    GPIO.output(PORT, GPIO.LOW)
+    GPIO.output(PORT, GPIO.HIGH)
 
 
 def stop_moke():
     GPIO.setmode(GPIO.BCM)
-    GPIO.output(PORT, GPIO.HIGH)
+    GPIO.setup(PORT, GPIO.OUT)
+    GPIO.output(PORT, GPIO.LOW)
 
 
 if __name__ == "__main__":
