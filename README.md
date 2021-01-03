@@ -1,6 +1,7 @@
 # Webserver app for controlling the relays.
 
-Utils are useful for starting and stopping MOKE.
+Utils are useful for switching relays on the Raspberry PI. Here, it is designed to turn on and off MOKE instrument, but can be easily adapted to act as a switch for anything else. 
+I.e. I also used it to open the garage door with Raspberry PI bridging the switch inside the houes and connected to an internal WIFI network.
 
 Run app.py to start the server, run connection_checker.py to constantly check the connection to the internet and local computer.
 Run `bash start_moke_listeners.sh` to start both.
